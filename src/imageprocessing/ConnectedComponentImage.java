@@ -45,6 +45,10 @@ public class ConnectedComponentImage {
 		WeightedQU();
 	}
 
+	/**
+	 * Is the first method that is called to when the program opens.
+	 * @param args
+	 */
 	public static void main (String args[]){
 		ConnectedComponentImage app = new ConnectedComponentImage("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
 	}
@@ -112,14 +116,14 @@ public class ConnectedComponentImage {
 	 * 
 	 * @return a picture object with all components coloured.
 	 */
-	/*Basically you use your union, make an arraylist 
-	 * that then contains each individual root, 
-	 * so it should have like the number of components 
-	 * in it. Then you can just make an array of random 
-	 * colors for each, see if they are equal and that 
-	 * way you can color them
-	 */
 	public Picture colourComponentImage() {
+		/*Basically you use your union, make an arraylist 
+		 * that then contains each individual root, 
+		 * so it should have like the number of components 
+		 * in it. Then you can just make an array of random 
+		 * colors for each, see if they are equal and that 
+		 * way you can color them
+		 */
 		return null;
 	}
 
@@ -176,6 +180,12 @@ public class ConnectedComponentImage {
 	
 		}
 	
+	/**
+	 * This method applied a weighted quick union by testing 
+	 * the current pixel and its neighbours to see if they are
+	 * the same color. If they are the same color then they are 
+	 * unioned. 
+	 */
 	public void WeightedQU(){
 		Picture pic = binaryComponentImage();
 		
@@ -225,6 +235,11 @@ public class ConnectedComponentImage {
 	}
 }*/
 	
+	/**
+	 * This method populated the id and size array. The size of the
+	 * array is determined by the size of the picture. 
+	 * @param N
+	 */
 	public void weightedQF(int N){
 		id = new int[N];
 		size = new int[N];
@@ -249,6 +264,10 @@ public class ConnectedComponentImage {
         return p;
     }
 
+    /**
+     * This validates the array.
+     * @param p
+     */
     // validate that p is a valid index
     private void validate(int p) {
         int N = parent.length;
@@ -257,10 +276,22 @@ public class ConnectedComponentImage {
         }
     }
     
+    /**
+     * This method checks if the elements are already 
+     * connected.
+     * @param p
+     * @param q
+     * @return
+     */
 	public boolean connected(int p, int q) {
        return find(p) == find(q);
     }
 	 
+	/**
+	 * This will return the root i that is passed through.
+	 * @param i
+	 * @return
+	 */
     public int root(int i) 
     { 
      while (i != id[i]) 
