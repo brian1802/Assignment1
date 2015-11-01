@@ -3,7 +3,7 @@ package imageprocessing;
 import java.awt.Color;
 
 import edu.princeton.cs.introcs.Picture;
-import edu.princeton.cs.introcs.StdDraw3D.Shape;
+
 
 
 /*************************************************************************
