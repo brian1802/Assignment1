@@ -64,7 +64,7 @@ public class ConnectedComponentImage {
 	 */
 	public Picture identifyComonentImage() {
 
-	/*	Picture pic = new Picture("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
+		Picture pic = new Picture("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
 
 		int maxX = 0;
 		int minX = pic.width();
@@ -101,7 +101,7 @@ public class ConnectedComponentImage {
 				pic.set(minX, y, Color.RED);
 				pic.set(maxX, y, Color.RED);
 			}
-		}*/
+		}
 		return picture;
 	}
 
