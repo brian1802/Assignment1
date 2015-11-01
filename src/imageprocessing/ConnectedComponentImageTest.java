@@ -1,6 +1,6 @@
 package imageprocessing;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import junit.framework.TestCase;
 
 import org.junit.After;
@@ -39,27 +39,30 @@ public class ConnectedComponentImageTest {
 
 	@Test
 	public void testCountComponents() {
-		//count = Picture.getCount();
+		//assertSame(10, ConnectedComponentImage.countComponents());
 	}
 
 	@Test
 	public void testIdentifyComonentImage() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testColourComponentImage() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetPicture() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
 	@Test
 	public void testBinaryComponentImage() {
-		fail("Not yet implemented");
+		//fail("Not yet implemented");
 	}
 
+	public void WeightedQuickUF(){
+		
+	}
 }

@@ -64,7 +64,7 @@ public class ConnectedComponentImage {
 	 */
 	public Picture identifyComonentImage() {
 
-		Picture pic = new Picture("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
+		Picture pic = getPicture();
 
 		int maxX = 0;
 		int minX = pic.width();
@@ -118,6 +118,7 @@ public class ConnectedComponentImage {
 	}
 
 	public Picture getPicture() {
+		picture = new Picture("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
 		return picture;
 	}
 
@@ -128,7 +129,7 @@ public class ConnectedComponentImage {
 	 */
 	public Picture binaryComponentImage() {
 
-		Picture picture = new Picture("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
+		Picture picture = getPicture();
 		int width = picture.width();
 		int height = picture.height();
 		double thresholdPixelValue = 128.0;
