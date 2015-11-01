@@ -39,7 +39,7 @@ public class ConnectedComponentImageTest {
 
 	@Test
 	public void testCountComponents() {
-		//count = Picture.getCount();
+		//assertSame(10, ConnectedComponentImage.countComponents());
 	}
 
 	@Test
