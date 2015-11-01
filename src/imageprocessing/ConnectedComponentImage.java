@@ -1,6 +1,7 @@
 package imageprocessing;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import edu.princeton.cs.introcs.Picture;
 
@@ -20,13 +21,11 @@ import edu.princeton.cs.introcs.Picture;
 public class ConnectedComponentImage {
 
 	Picture picture;
-	int height;
-	int width;
-	int count;
-	private int[] id;
-	private int[] size;
-	private int[] root;
-	int N;
+	int height, width, count, N;
+	private int[] id, size, parent;
+	private ArrayList<Integer>roots;
+
+	private String fileLocation;
 	
 	/**
 	 * Initialise fields
@@ -34,16 +33,16 @@ public class ConnectedComponentImage {
 	 * @param fileLocation
 	 */
 	public ConnectedComponentImage(String fileLocation) {
-		picture = new Picture(fileLocation);
+		this.fileLocation = fileLocation;
+		Picture picture = binaryComponentImage();
 		int N = width*height;
+		parent = new int[N];
 		id = new int[N];
 		size = new int[N];
-		root = new int[N];
-		binaryComponentImage();
-		countComponents();
-		identifyComonentImage();
-		colourComponentImage();
-		WeightedQuickUF();
+		roots = new ArrayList<>();
+		
+		weightedQF(N);
+		WeightedQU();
 	}
 
 	public static void main (String args[]){
@@ -121,16 +120,11 @@ public class ConnectedComponentImage {
 	 * way you can color them
 	 */
 	public Picture colourComponentImage() {
-		Picture pic = getPicture();
-		while (root.length > 0){
-			countComponents();
-		}
 		return null;
-
 	}
 
 	public Picture getPicture() {
-		picture = new Picture("C:/Users/Brian/Workspace/ConnectorStarter(1)/images/crosses.gif");
+		picture = new Picture(fileLocation);
 		return picture;
 	}
 
@@ -161,66 +155,108 @@ public class ConnectedComponentImage {
 		return identifyComonentImage();
 	}
 	
-	public void WeightedQuickUF(){
+	/**
+	* This method takes in a component picture and cross checks 
+	* it to find the amount of roots and populate a roots array
+	* with the values of the roots.
+	 */
+		
+		public void findRootsArray(Picture pic){
+			for (int x = 0; x < pic.width(); x++) {
+				for (int y = 0; y < pic.height(); y++) {
+					int currentNumber = find(y*width+x);
+					if(x==0 && y==0){
+						roots.add(currentNumber);
+					}
+					if(!roots.contains(currentNumber)){
+						roots.add(currentNumber);
+					}
+				}
+			}
+	
+		}
+	
+	public void WeightedQU(){
 		Picture pic = binaryComponentImage();
+		
+		for (int x = 0; x < width; x++){
+			for(int y = 0; y < height; y++){
+				if(x > 0){
+					union(x-1, y);
+				}else
+				if((y-1) >=0){
+					union(x, y-1);
+				}else
+				if(y!= (height-1)){
+					union(x,y+1);
+				}else
+				if (x!= width-1 && y!= height-1){
+					union(x+1,y);
+			}
+		}
+	}
+}
+
+	/*	Picture pic = binaryComponentImage();
 		for (int x = 0; x < width; x++){
 			for(int y = 0; y < height; y++){
 				Color a, b, c, d;
-				if(x > 0){
+				if(x > 0){//North
 					a = pic.get(x-1,y);
 				}else{
 					a = pic.get(x, y);
 				}
-				if(x > 0){
-					b = pic.get(x+1, y);
-				}else{
-					b = pic.get(x, y);
-				}
-				if(y!= (height-1)){
+				if((y-1) >=0){//West
 					c = pic.get(x, y-1);
 				}else{
 					c = pic.get(x, y);
 				}
-				if(y!= (height+1)){
+				if(y!= (height-1)){//East
 					d = pic.get(x, y+1);
 				}else{
 					d = pic.get(x, y);
 				}
+				if(x!= width-1 && y!= height-1){//South
+					b = pic.get(x+1, y);
+				}else{
+					b = pic.get(x, y);
 			}
 		}
 	}
+}*/
 	
-	 /**
+	public void weightedQF(int N){
+		id = new int[N];
+		size = new int[N];
+		
+		for (int i = 0; N < width; N++){
+			id[i] = i;
+			size[i] = 1;
+		}
+	}
+	
+	/**
      * Returns the component identifier for the component containing site <tt>p</tt>.
      *
      * @param  p the integer representing one object
      * @return the component identifier for the component containing site <tt>p</tt>
      * @throws IndexOutOfBoundsException unless <tt>0 &le; p &lt; N</tt>
      */
-	 public int find(int p) {
-		 	validate(p);
-	        while (p != id[p])
-	            p = id[p];
-	        return p;
-	    }
-	 
-	 private void validate(int p) {
-	        int N = id.length;
-	        if (p < 0 || p >= N) {
-	            throw new IndexOutOfBoundsException("index " + p + " is not between 0 and " + (N-1));  
-	        }
-	    }
-	 
-	  /**
-	     * Returns true if the the two sites are in the same component.
-	     *
-	     * @param  p the integer representing one site
-	     * @param  q the integer representing the other site
-	     * @return <tt>true</tt> if the two sites <tt>p</tt> and <tt>q</tt> are in the same component;
-	     *         <tt>false</tt> otherwise
-	     * @throws IndexOutOfBoundsException unless
-	     *         both <tt>0 &le; p &lt; N</tt> and <tt>0 &le; q &lt; N</tt>
-	     */
+    public int find(int p) {
+        validate(p);
+        while (p != parent[p])
+            p = parent[p];
+        return p;
+    }
+
+    // validate that p is a valid index
+    private void validate(int p) {
+        int N = parent.length;
+        if (p < 0 || p >= N) {
+            throw new IndexOutOfBoundsException("index " + p + " is not between 0 and " + (N-1));  
+        }
+    }
+    
 	public boolean connected(int p, int q) {
        return find(p) == find(q);
     }
@@ -237,12 +273,7 @@ public class ConnectedComponentImage {
 	 /**
      * Merges the component containing site p with the 
      * the component containing site q.
-     * @return 
-     */
-    /**
-     * Merges the component containing site <tt>p</tt> with the 
-     * the component containing site <tt>q</tt>.
-     *
+     * @return
      * @param  p the integer representing one site
      * @param  q the integer representing the other site
      * @throws IndexOutOfBoundsException unless
