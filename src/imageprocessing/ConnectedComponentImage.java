@@ -25,6 +25,7 @@ public class ConnectedComponentImage {
 	int count;
 	private int[] id;
 	private int[] size;
+	private int[] root;
 	int N;
 	
 	/**
@@ -37,6 +38,7 @@ public class ConnectedComponentImage {
 		int N = width*height;
 		id = new int[N];
 		size = new int[N];
+		root = new int[N];
 		binaryComponentImage();
 		countComponents();
 		identifyComonentImage();
@@ -111,8 +113,18 @@ public class ConnectedComponentImage {
 	 * 
 	 * @return a picture object with all components coloured.
 	 */
+	/*Basically you use your union, make an arraylist 
+	 * that then contains each individual root, 
+	 * so it should have like the number of components 
+	 * in it. Then you can just make an array of random 
+	 * colors for each, see if they are equal and that 
+	 * way you can color them
+	 */
 	public Picture colourComponentImage() {
-
+		Picture pic = getPicture();
+		while (root.length > 0){
+			countComponents();
+		}
 		return null;
 
 	}
